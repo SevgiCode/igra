@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTML херој — Спојување тагови</title>
+    <title>HTML херој 2 — Училиште за тагови</title>
 
     <style>
       * {
@@ -13,20 +13,20 @@
       body {
         margin: 0;
         font-family: "Segoe UI", system-ui, sans-serif;
-        background: linear-gradient(135deg, #eef4ff, #fff1f7);
-        color: #222;
+        background: linear-gradient(135deg, #eef4ff, #fff7ed);
+        color: #1f2937;
       }
 
       header {
         text-align: center;
-        padding: 24px 16px;
-        background: linear-gradient(135deg, #4f46e5, #9333ea);
+        padding: 26px 16px;
+        background: linear-gradient(135deg, #4f46e5, #9333ea, #ec4899);
         color: white;
       }
 
       header h1 {
         margin: 0;
-        font-size: clamp(24px, 4vw, 34px);
+        font-size: clamp(26px, 5vw, 38px);
       }
 
       header p {
@@ -34,20 +34,76 @@
         opacity: 0.92;
       }
 
-      .game {
+      .container {
         max-width: 1150px;
         margin: 24px auto;
         padding: 0 16px;
+      }
+
+      .menu {
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .mode-btn {
+        background: white;
+        border: 3px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 18px;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          transform 0.15s,
+          border-color 0.15s;
+      }
+
+      .mode-btn:hover {
+        transform: translateY(-4px);
+        border-color: #4f46e5;
+      }
+
+      .mode-btn.active {
+        border-color: #4f46e5;
+        background: #eef2ff;
+      }
+
+      .mode-btn strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+
+      .difficulty {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .diff-btn {
+        border: 0;
+        background: #e5e7eb;
+        color: #374151;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .diff-btn.active {
+        background: #4f46e5;
+        color: white;
       }
 
       .panel {
         background: white;
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+        border-radius: 22px;
+        padding: 22px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.09);
+        margin-bottom: 20px;
       }
 
       .topbar {
@@ -56,14 +112,14 @@
         gap: 10px;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
         font-weight: bold;
       }
 
       .chip {
         background: #eef2ff;
         color: #3730a3;
-        padding: 8px 12px;
+        padding: 8px 13px;
         border-radius: 999px;
         font-size: 14px;
       }
@@ -80,35 +136,42 @@
         height: 100%;
         width: 0%;
         background: linear-gradient(90deg, #22c55e, #84cc16);
-        transition: width 0.35s ease;
+        transition: width 0.3s;
       }
 
       h2 {
         margin-top: 0;
-        font-size: 20px;
       }
 
       .tags {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        min-height: 150px;
-        padding: 6px;
+        min-height: 140px;
       }
 
       .tag {
         border: 3px solid transparent;
-        border-radius: 14px;
+        border-radius: 16px;
         padding: 12px 16px;
         font-family: ui-monospace, monospace;
         font-size: 18px;
         font-weight: bold;
         cursor: pointer;
         user-select: none;
+        text-align: center;
         transition:
           transform 0.15s,
-          box-shadow 0.15s,
-          background 0.2s;
+          box-shadow 0.15s;
+      }
+
+      .tag small {
+        display: block;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 12px;
+        font-weight: normal;
+        margin-top: 4px;
+        opacity: 0.8;
       }
 
       .tag:hover {
@@ -120,10 +183,17 @@
         background: #dbeafe;
         color: #1d4ed8;
       }
-
       .closing {
         background: #ffe4e6;
         color: #be123c;
+      }
+      .single {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .answer {
+        background: #f3f4f6;
+        color: #374151;
       }
 
       .selected {
@@ -169,15 +239,15 @@
       }
 
       .message {
-        min-height: 28px;
-        margin: 14px 0;
+        min-height: 30px;
+        margin: 16px 0;
         font-weight: bold;
       }
 
       .buttons {
         display: flex;
-        gap: 10px;
         flex-wrap: wrap;
+        gap: 10px;
       }
 
       button {
@@ -194,7 +264,6 @@
       button.secondary {
         background: #f59e0b;
       }
-
       button:hover {
         filter: brightness(0.94);
       }
@@ -202,31 +271,43 @@
       .preview {
         border: 2px dashed #c7d2fe;
         border-radius: 16px;
-        padding: 18px;
-        min-height: 320px;
+        padding: 20px;
+        min-height: 300px;
         background: #fafafa;
       }
 
       .preview h1 {
         color: #4f46e5;
       }
-
-      .preview p {
-        line-height: 1.55;
+      .preview h2 {
+        color: #7c3aed;
+      }
+      .preview h3 {
+        color: #db2777;
+      }
+      .preview h4 {
+        color: #ea580c;
+      }
+      .preview h5 {
+        color: #16a34a;
+      }
+      .preview h6 {
+        color: #0f766e;
       }
 
-      .preview .box {
-        background: #fef08a;
+      .preview .image-box {
+        background: #dbeafe;
         border-radius: 14px;
-        padding: 16px;
+        padding: 20px;
         text-align: center;
-        font-weight: bold;
+        font-size: 44px;
       }
 
-      .preview ul {
+      .preview ul,
+      .preview ol {
         background: white;
         border-radius: 12px;
-        padding: 16px 16px 16px 34px;
+        padding: 16px 16px 16px 36px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
       }
 
@@ -249,14 +330,26 @@
         font-size: 15px;
       }
 
+      .quiz-question {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 16px;
+      }
+
+      .quiz-answers {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+      }
+
       .overlay {
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.72);
+        background: rgba(15, 23, 42, 0.75);
         display: none;
         place-items: center;
         padding: 20px;
-        z-index: 20;
+        z-index: 30;
       }
 
       .overlay.show {
@@ -265,21 +358,21 @@
 
       .card {
         background: white;
-        border-radius: 22px;
-        padding: 30px;
-        max-width: 480px;
+        border-radius: 24px;
+        padding: 32px;
+        max-width: 500px;
         text-align: center;
         box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
       }
 
       .card h2 {
         margin: 0 0 10px;
-        font-size: 28px;
+        font-size: 30px;
       }
 
       .stars {
-        font-size: 38px;
-        margin: 10px 0;
+        font-size: 42px;
+        margin: 12px 0;
       }
 
       .badge {
@@ -293,8 +386,11 @@
       }
 
       @media (max-width: 850px) {
-        .game {
-          grid-template-columns: 1fr;
+        .container {
+          padding: 0 12px;
+        }
+        .panel {
+          padding: 16px;
         }
       }
     </style>
@@ -302,32 +398,58 @@
 
   <body>
     <header>
-      <h1>🦸 HTML херој</h1>
-      <p>Спои ги таговите, изгради страница и стани HTML херој!</p>
+      <h1>🦸 HTML херој 2</h1>
+      <p>Учи тагови, гради страници и собира значки!</p>
     </header>
 
-    <main class="game">
+    <div class="container">
+      <div class="menu">
+        <button class="mode-btn active" data-mode="match" style="color: black">
+          <strong>🧩 Спојување</strong>
+          Спои почетен и затворачки таг.
+        </button>
+
+        <button class="mode-btn" data-mode="quiz" style="color: black">
+          <strong>❓ Кој таг е овој?</strong>
+          Погледни ја страницата и избери точен таг.
+        </button>
+
+        <button class="mode-btn" data-mode="build" style="color: black">
+          <strong>🏗️ Изгради страница</strong>
+          Кликни ги таговите во точен редослед.
+        </button>
+
+        <button class="mode-btn" data-mode="challenge" style="color: black">
+          <strong>⚡ Предизвик</strong>
+          Брзо одговарај и собирај поени.
+        </button>
+      </div>
+
+      <div class="difficulty">
+        <button class="diff-btn active" data-diff="easy">🙂 Лесно</button>
+        <button class="diff-btn" data-diff="medium">😎 Средно</button>
+        <button class="diff-btn" data-diff="hard">🔥 Тешко</button>
+      </div>
+
       <section class="panel">
         <div class="topbar">
-          <span class="chip">🗺️ Ниво <span id="levelNo">1</span>/5</span>
-          <span class="chip">⭐ <span id="score">0</span> поени</span>
-          <span class="chip">🏅 <span id="badgeCount">0</span> значки</span>
+          <span class="chip">🎮 <span id="modeName">Спојување</span></span>
+          <span class="chip">⭐ <span id="score">0</span></span>
+          <span class="chip">🔥 Серија: <span id="streak">0</span></span>
+          <span class="chip">🏅 <span id="badgeCount">0</span></span>
+          <span class="chip">⏱️ <span id="timer">--</span></span>
         </div>
 
         <div class="progress">
           <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <h2>🧩 Спои ги таговите</h2>
-        <div class="tags" id="tags"></div>
-
+        <div id="gameArea"></div>
         <div class="message" id="message"></div>
 
         <div class="buttons">
           <button id="hintBtn">💡 Помош</button>
-          <button class="secondary" id="restartBtn">
-            🔄 Започни од почеток
-          </button>
+          <button class="secondary" id="restartBtn">🔄 Нова игра</button>
         </div>
       </section>
 
@@ -336,11 +458,11 @@
         <div class="preview" id="preview"></div>
         <div class="fact" id="fact"></div>
       </section>
-    </main>
+    </div>
 
     <div class="overlay" id="overlay">
       <div class="card">
-        <h2 id="overlayTitle">🎉 Нивото е завршено!</h2>
+        <h2 id="overlayTitle">🎉 Браво!</h2>
         <div class="stars" id="overlayStars">⭐⭐⭐</div>
         <p id="overlayText"></p>
         <div id="overlayBadge"></div>
@@ -350,149 +472,189 @@
     </div>
 
     <script>
-      const levels = [
+      const tagInfo = {
+        h1: { mk: "Голем наслов", icon: "🏷️" },
+        h2: { mk: "Наслов 2", icon: "🏷️" },
+        h3: { mk: "Наслов 3", icon: "🏷️" },
+        h4: { mk: "Наслов 4", icon: "🏷️" },
+        h5: { mk: "Наслов 5", icon: "🏷️" },
+        h6: { mk: "Мал наслов", icon: "🏷️" },
+        p: { mk: "Параграф", icon: "📝" },
+        strong: { mk: "Многу важно", icon: "💪" },
+        em: { mk: "Нагласено", icon: "✨" },
+        i: { mk: "Курзив", icon: "🔤" },
+        b: { mk: "Дебело", icon: "🅱️" },
+        br: { mk: "Нов ред", icon: "⏎" },
+        img: { mk: "Слика", icon: "🖼️" },
+        a: { mk: "Врска", icon: "🔗" },
+        ul: { mk: "Список со точки", icon: "📋" },
+        ol: { mk: "Реден список", icon: "🔢" },
+        li: { mk: "Ставка", icon: "•" },
+      };
+
+      const quizQuestions = [
         {
-          title: "Наслов и параграф",
-          fact: "💡 <h1> е најважниот наслов на страницата. <p> се користи за нормален текст, односно параграф.",
-          pairs: [
-            {
-              open: "<h1>",
-              close: "</h1>",
-              type: "h1",
-              text: "Здраво свете!",
-            },
-            {
-              open: "<p>",
-              close: "</p>",
-              type: "p",
-              text: "Јас учам HTML.",
-            },
-          ],
+          text: "Кој таг го прави текстот многу важен и дебел?",
+          render: () => `<p>Ова е <strong>многу важно</strong>.</p>`,
+          correct: "strong",
+          options: ["strong", "em", "i", "p"],
         },
         {
-          title: "Кутии: Div",
-          fact: "💡 <div> е кутија која служи за групирање на содржини. Многу е корисна за дизајн на страница.",
-          pairs: [
-            {
-              open: "<h1>",
-              close: "</h1>",
-              type: "h1",
-              text: "Мојата страница",
-            },
-            {
-              open: "<p>",
-              close: "</p>",
-              type: "p",
-              text: "Денес е убав ден!",
-            },
-            {
-              open: "<div>",
-              close: "</div>",
-              type: "div",
-              text: "Јас сум кутија 📦",
-            },
-          ],
+          text: "Кој таг прави текст курзив?",
+          render: () => `<p>Ова е <i>курзив текст</i>.</p>`,
+          correct: "i",
+          options: ["b", "i", "strong", "ul"],
         },
         {
-          title: "Направи список",
-          fact: "💡 <ul> ја започнува неподредената листа, а <li> претставува една ставка во листата.",
-          pairs: [
-            {
-              open: "<h1>",
-              close: "</h1>",
-              type: "h1",
-              text: "Моето омилено овошје",
-            },
-            {
-              open: "<ul>",
-              close: "</ul>",
-              type: "ul",
-              text: "",
-            },
-            {
-              open: "<li>",
-              close: "</li>",
-              type: "li",
-              text: "Јаболко 🍎",
-            },
-            {
-              open: "<li>",
-              close: "</li>",
-              type: "li",
-              text: "Банана 🍌",
-            },
-          ],
+          text: "Кој таг прави нов ред?",
+          render: () => `<p>Прва линија.<br>Втора линија.</p>`,
+          correct: "br",
+          options: ["br", "p", "img", "a"],
         },
         {
-          title: "Додади врска",
-          fact: "💡 <a> се користи за создавање врска до друга страница или веб-страница.",
-          pairs: [
-            {
-              open: "<h1>",
-              close: "</h1>",
-              type: "h1",
-              text: "Мојата веб-страница",
-            },
-            {
-              open: "<p>",
-              close: "</p>",
-              type: "p",
-              text: "Кликни на копчето подолу!",
-            },
-            {
-              open: "<a>",
-              close: "</a>",
-              type: "a",
-              text: "Кликни ме",
-            },
-          ],
+          text: "Кој таг се користи за слика?",
+          render: () => `<div class="image-box">🖼️</div>`,
+          correct: "img",
+          options: ["img", "a", "ul", "h1"],
         },
         {
-          title: "Мала веб-страница",
-          fact: "💡 Вистинските страници обично се прават од наслов, параграф, кутија, список и врска.",
-          pairs: [
-            {
-              open: "<h1>",
-              close: "</h1>",
-              type: "h1",
-              text: "HTML херој",
-            },
-            {
-              open: "<p>",
-              close: "</p>",
-              type: "p",
-              text: "Денес ја направив мојата прва страница!",
-            },
-            {
-              open: "<div>",
-              close: "</div>",
-              type: "div",
-              text: "Успеав! 🎉",
-            },
-            {
-              open: "<a>",
-              close: "</a>",
-              type: "a",
-              text: "Продолжи",
-            },
-          ],
+          text: "Кој таг прави врска?",
+          render: () => `<p><a href="#">Кликни ме</a></p>`,
+          correct: "a",
+          options: ["a", "img", "li", "em"],
+        },
+        {
+          text: "Кој таг прави список со точки?",
+          render: () => `<ul><li>Јаболко</li><li>Банана</li></ul>`,
+          correct: "ul",
+          options: ["ul", "ol", "li", "p"],
+        },
+        {
+          text: "Кој таг прави реден список?",
+          render: () => `<ol><li>Прво</li><li>Второ</li></ol>`,
+          correct: "ol",
+          options: ["ol", "ul", "br", "h2"],
+        },
+        {
+          text: "Кој таг е најголемиот наслов?",
+          render: () => `<h1>Голем наслов</h1>`,
+          correct: "h1",
+          options: ["h1", "h6", "p", "strong"],
+        },
+        {
+          text: "Кој таг е најмалиот наслов?",
+          render: () => `<h6>Мал наслов</h6>`,
+          correct: "h6",
+          options: ["h6", "h1", "h3", "b"],
+        },
+        {
+          text: "Кој таг се користи за параграф?",
+          render: () => `<p>Ова е параграф.</p>`,
+          correct: "p",
+          options: ["p", "div", "li", "a"],
         },
       ];
 
+      const buildLevels = [
+        {
+          name: "Наслов и параграф",
+          sequence: [
+            "<h1>",
+            "Мојата страница",
+            "</h1>",
+            "<p>",
+            "Јас учам HTML.",
+            "</p>",
+          ],
+        },
+        {
+          name: "Важно и нагласено",
+          sequence: [
+            "<p>",
+            "HTML е ",
+            "<strong>",
+            "многу важно",
+            "</strong>",
+            " и ",
+            "<em>",
+            "интересно",
+            "</em>",
+            ".",
+            "</p>",
+          ],
+        },
+        {
+          name: "Список со точки",
+          sequence: [
+            "<ul>",
+            "<li>",
+            "Јаболко",
+            "</li>",
+            "<li>",
+            "Банана",
+            "</li>",
+            "</ul>",
+          ],
+        },
+        {
+          name: "Реден список",
+          sequence: [
+            "<ol>",
+            "<li>",
+            "Прво",
+            "</li>",
+            "<li>",
+            "Второ",
+            "</li>",
+            "</ol>",
+          ],
+        },
+        {
+          name: "Слика и врска",
+          sequence: ["<img>", "<br>", "<a>", "Кликни ме", "</a>"],
+        },
+      ];
+
+      const matchLevels = {
+        easy: [
+          ["h1", "p", "strong"],
+          ["ul", "li", "b"],
+          ["a", "em", "h2"],
+        ],
+        medium: [
+          ["h3", "ol", "li", "i"],
+          ["strong", "em", "br", "img"],
+          ["h4", "p", "a", "ul"],
+        ],
+        hard: [
+          ["h5", "h6", "b", "i", "br"],
+          ["ol", "ul", "li", "strong", "em"],
+          ["h1", "h2", "h3", "a", "img", "p"],
+        ],
+      };
+
+      let currentMode = "match";
+      let currentDifficulty = "easy";
       let levelIndex = 0;
-      let score = 0;
       let totalScore = 0;
+      let streak = 0;
       let badges = 0;
       let completed = 0;
       let selectedTag = null;
       let hintsUsed = 0;
+      let timer = null;
+      let timeLeft = 0;
+      let currentQuiz = null;
+      let buildProgress = 0;
 
-      const tagsArea = document.getElementById("tags");
+      const gameArea = document.getElementById("gameArea");
       const preview = document.getElementById("preview");
       const message = document.getElementById("message");
       const scoreEl = document.getElementById("score");
+      const streakEl = document.getElementById("streak");
       const badgeCount = document.getElementById("badgeCount");
-      const levelNo = document.getElementById("levelNo");
+      const timerEl = document.getElementById("timer");
+      const modeName = document.getElementById("modeName");
       const progressFill = document.getElementById("progressFill");
       const factBox = document.getElementById("fact");
       const overlay = document.getElementById("overlay");
@@ -543,71 +705,123 @@
         return [...items].sort(() => Math.random() - 0.5);
       }
 
-      function startGame() {
+      function setMode(mode) {
+        currentMode = mode;
+        stopTimer();
         levelIndex = 0;
-        totalScore = 0;
-        badges = 0;
-        scoreEl.textContent = 0;
-        badgeCount.textContent = 0;
-        overlay.classList.remove("show");
-        loadLevel();
-      }
-
-      function loadLevel() {
-        const level = levels[levelIndex];
         completed = 0;
-        score = 0;
-        hintsUsed = 0;
-        selectedTag = null;
-
-        tagsArea.innerHTML = "";
+        streak = 0;
+        streakEl.textContent = 0;
+        progressFill.style.width = "0%";
         preview.innerHTML = "";
         message.textContent = "";
-        factBox.innerHTML = level.fact;
-        levelNo.textContent = levelIndex + 1;
+        factBox.innerHTML = "";
+
+        document.querySelectorAll(".mode-btn").forEach((button) => {
+          button.classList.toggle("active", button.dataset.mode === mode);
+        });
+
+        modeName.textContent = {
+          match: "Спојување",
+          quiz: "Кој таг е овој?",
+          build: "Изгради страница",
+          challenge: "Предизвик",
+        }[mode];
+
+        startCurrentMode();
+      }
+
+      function setDifficulty(difficulty) {
+        currentDifficulty = difficulty;
+
+        document.querySelectorAll(".diff-btn").forEach((button) => {
+          button.classList.toggle("active", button.dataset.diff === difficulty);
+        });
+
+        startCurrentMode();
+      }
+
+      function startCurrentMode() {
+        stopTimer();
+        completed = 0;
+        hintsUsed = 0;
+        selectedTag = null;
+        preview.innerHTML = "";
+        message.textContent = "";
+        factBox.innerHTML = "";
         progressFill.style.width = "0%";
 
+        if (currentMode === "match") startMatchGame();
+        if (currentMode === "quiz") startQuiz();
+        if (currentMode === "build") startBuildGame();
+        if (currentMode === "challenge") startChallenge();
+      }
+
+      function startMatchGame() {
+        const levels = matchLevels[currentDifficulty];
+        const tags = levels[levelIndex % levels.length];
+
+        gameArea.innerHTML = `
+    <h2>🧩 Спои ги таговите</h2>
+    <div class="tags" id="tags"></div>
+  `;
+
+        const tagsArea = document.getElementById("tags");
         const items = [];
 
-        level.pairs.forEach((pair, index) => {
-          items.push({ ...pair, kind: "open", pairId: index });
-          items.push({ ...pair, kind: "close", pairId: index });
+        tags.forEach((tag, index) => {
+          items.push({ tag, kind: "open", pairId: index });
+          items.push({ tag, kind: "close", pairId: index });
         });
 
         shuffle(items).forEach((item) => {
           const el = document.createElement("div");
+          const isSingle = ["br", "img"].includes(item.tag);
+
           el.className =
-            "tag " + (item.kind === "open" ? "opening" : "closing");
-          el.textContent = item.kind === "open" ? item.open : item.close;
+            "tag " +
+            (isSingle
+              ? "single"
+              : item.kind === "open"
+                ? "opening"
+                : "closing");
+
+          el.innerHTML = `
+      ${item.kind === "open" ? `<${item.tag}>` : `</${item.tag}>`}
+      <small>${tagInfo[item.tag].icon} ${tagInfo[item.tag].mk}</small>
+    `;
+
           el.dataset.pairId = item.pairId;
           el.dataset.kind = item.kind;
+          el.dataset.tag = item.tag;
           el.draggable = true;
 
           el.addEventListener("dragstart", () => {
-            if (!el.classList.contains("correct")) {
-              selectTag(el);
-            }
+            if (!el.classList.contains("correct")) selectTag(el);
           });
 
           el.addEventListener("dragover", (event) => event.preventDefault());
 
           el.addEventListener("drop", (event) => {
             event.preventDefault();
-            tryMatch(el);
+            checkMatch(el);
           });
 
           el.addEventListener("click", () => {
             if (el.classList.contains("correct")) return;
 
-            if (!selectedTag) {
-              selectTag(el);
-            } else {
-              tryMatch(el);
-            }
+            if (!selectedTag) selectTag(el);
+            else checkMatch(el);
           });
 
           tagsArea.appendChild(el);
         });
+
+        factBox.innerHTML = `
+    💡 Секој обичен HTML таг има почеток и крај:
+    <code>&lt;p&gt;</code> и <code>&lt;/p&gt;</code>.
+    Но <code>&lt;br&gt;</code> и <code>&lt;img&gt;</code> се самозатворачки тагови.
+  `;
       }
 
       function selectTag(el) {
@@ -620,11 +834,10 @@
         document.querySelectorAll(".tag.selected").forEach((el) => {
           el.classList.remove("selected");
         });
-
         selectedTag = null;
       }
 
-      function tryMatch(target) {
+      function checkMatch(target) {
         if (!selectedTag || selectedTag === target) return;
 
         const samePair = selectedTag.dataset.pairId === target.dataset.pairId;
@@ -638,26 +851,30 @@
           selectedTag.draggable = false;
           target.draggable = false;
 
-          score += hintsUsed > 0 ? 5 : 10;
-          totalScore += hintsUsed > 0 ? 5 : 10;
+          addScore(hintsUsed > 0 ? 5 : 10);
           completed++;
           hintsUsed = 0;
 
-          scoreEl.textContent = totalScore;
-          message.textContent = "✅ Одлично! Ги спои правилните тагови.";
+          message.textContent = "✅ Одлично! Таговите се совпаѓаат.";
           message.style.color = "#15803d";
           playCorrect();
 
-          addToPreview(Number(target.dataset.pairId));
-          updateProgress();
-
           selectedTag = null;
+          updateMatchProgress();
 
-          if (completed === levels[levelIndex].pairs.length) {
-            setTimeout(showLevelComplete, 700);
+          const tags =
+            matchLevels[currentDifficulty][
+              levelIndex % matchLevels[currentDifficulty].length
+            ];
+
+          if (completed === tags.length) {
+            setTimeout(() => completeRound("Спојување"), 700);
           }
         } else {
           target.classList.add("wrong");
+          streak = 0;
+          streakEl.textContent = 0;
+
           message.textContent =
             "🤔 Овие тагови не се совпаѓаат. Обиди се повторно!";
           message.style.color = "#be123c";
@@ -668,98 +885,215 @@
         }
       }
 
-      function addToPreview(pairId) {
-        const pair = levels[levelIndex].pairs[pairId];
-        let el;
-
-        if (pair.type === "h1") {
-          el = document.createElement("h1");
-        } else if (pair.type === "p") {
-          el = document.createElement("p");
-        } else if (pair.type === "div") {
-          el = document.createElement("div");
-          el.className = "box";
-        } else if (pair.type === "ul") {
-          el = document.createElement("ul");
-        } else if (pair.type === "li") {
-          el = document.createElement("li");
-        } else if (pair.type === "a") {
-          el = document.createElement("a");
-          el.href = "#";
-
-          el.addEventListener("click", (event) => event.preventDefault());
-        }
-
-        el.textContent = pair.text;
-        preview.appendChild(el);
+      function updateMatchProgress() {
+        const tags =
+          matchLevels[currentDifficulty][
+            levelIndex % matchLevels[currentDifficulty].length
+          ];
+        progressFill.style.width = (completed / tags.length) * 100 + "%";
       }
 
-      function updateProgress() {
-        const total = levels[levelIndex].pairs.length;
-        progressFill.style.width = (completed / total) * 100 + "%";
-      }
+      function startQuiz() {
+        currentQuiz =
+          quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
 
-      function giveHint() {
-        const openTags = [
-          ...document.querySelectorAll(".tag.opening:not(.correct)"),
-        ];
-        const closeTags = [
-          ...document.querySelectorAll(".tag.closing:not(.correct)"),
-        ];
+        gameArea.innerHTML = `
+    <h2>❓ Кој таг е овој?</h2>
+    <div class="quiz-question">${currentQuiz.text}</div>
+    <div class="preview" id="quizPreview">${currentQuiz.render()}</div>
+    <br>
+    <div class="quiz-answers" id="quizAnswers"></div>
+  `;
 
-        if (!openTags.length || !closeTags.length) return;
+        const answersArea = document.getElementById("quizAnswers");
+        const options = shuffle(currentQuiz.options);
 
-        const openTag = openTags[0];
+        options.forEach((option) => {
+          const button = document.createElement("button");
+          button.className = "tag answer";
+          button.innerHTML = `
+      &lt;${option}&gt;
+      <small>${tagInfo[option].icon} ${tagInfo[option].mk}</small>
+    `;
 
-        const closeTag = closeTags.find((tag) => {
-          return tag.dataset.pairId === openTag.dataset.pairId;
+          button.addEventListener("click", () =>
+            checkQuizAnswer(option, button),
+          );
+          answersArea.appendChild(button);
         });
 
-        if (!closeTag) return;
+        factBox.innerHTML =
+          "💡 Погледни го примерот горе и избери го тагот што го прави тој ефект.";
+      }
 
-        openTag.classList.add("correct");
-        closeTag.classList.add("correct");
+      function checkQuizAnswer(answer, button) {
+        if (answer === currentQuiz.correct) {
+          button.classList.add("correct");
+          addScore(10);
+          message.textContent = "✅ Точно! Ова е <" + answer + "> таг.";
+          message.style.color = "#15803d";
+          playCorrect();
 
-        openTag.draggable = false;
-        closeTag.draggable = false;
+          setTimeout(startQuiz, 1100);
+        } else {
+          button.classList.add("wrong");
+          streak = 0;
+          streakEl.textContent = 0;
+          message.textContent = "❌ Не е овој. Погледни го примерот повторно!";
+          message.style.color = "#be123c";
+          playWrong();
 
-        score += 5;
-        totalScore += 5;
-        completed++;
-        hintsUsed++;
-
-        scoreEl.textContent = totalScore;
-        message.textContent =
-          "💡 Користена е помош. Погледни го овој пар тагови!";
-        message.style.color = "#b45309";
-
-        addToPreview(Number(openTag.dataset.pairId));
-        updateProgress();
-        playCorrect();
-
-        if (completed === levels[levelIndex].pairs.length) {
-          setTimeout(showLevelComplete, 700);
+          setTimeout(() => button.classList.remove("wrong"), 400);
         }
       }
 
-      function showLevelComplete() {
-        const level = levels[levelIndex];
+      function startBuildGame() {
+        const level = buildLevels[levelIndex % buildLevels.length];
+        buildProgress = 0;
 
-        const stars =
-          score >= level.pairs.length * 10
-            ? 3
-            : score >= level.pairs.length * 7
-              ? 2
-              : 1;
+        gameArea.innerHTML = `
+    <h2>🏗️ Изгради: ${level.name}</h2>
+    <p>Кликни ги деловите во точен редослед.</p>
+    <div class="tags" id="buildTags"></div>
+  `;
 
-        overlayTitle.textContent = "🎉 Нивото е завршено!";
+        const area = document.getElementById("buildTags");
+
+        shuffle(
+          level.sequence.map((token, index) => ({ token, index })),
+        ).forEach((item) => {
+          const el = document.createElement("div");
+          const isTag = item.token.startsWith("<");
+
+          el.className = "tag " + (isTag ? "opening" : "answer");
+          el.textContent = item.token;
+          el.dataset.index = item.index;
+
+          el.addEventListener("click", () => checkBuildAnswer(item.index, el));
+          area.appendChild(el);
+        });
+
+        factBox.innerHTML =
+          "💡 HTML се чита од горе надолу. Прво се отвора тагот, потоа се пишува содржината, а на крај се затвора.";
+      }
+
+      function checkBuildAnswer(index, el) {
+        const level = buildLevels[levelIndex % buildLevels.length];
+
+        if (index === buildProgress) {
+          el.classList.add("correct");
+          el.style.order = buildProgress;
+          buildProgress++;
+
+          addScore(10);
+          preview.innerHTML += renderBuildToken(
+            level.sequence[buildProgress - 1],
+          );
+
+          message.textContent = "✅ Точно! Продолжи.";
+          message.style.color = "#15803d";
+          playCorrect();
+
+          progressFill.style.width =
+            (buildProgress / level.sequence.length) * 100 + "%";
+
+          if (buildProgress === level.sequence.length) {
+            setTimeout(() => completeRound("Изгради страница"), 700);
+          }
+        } else {
+          el.classList.add("wrong");
+          streak = 0;
+          streakEl.textContent = 0;
+          message.textContent = "❌ Ова не е следниот дел. Обиди се со друг!";
+          message.style.color = "#be123c";
+          playWrong();
+
+          setTimeout(() => el.classList.remove("wrong"), 400);
+        }
+      }
+
+      function renderBuildToken(token) {
+        if (token === "<h1>") return "<h1>";
+        if (token === "</h1>") return "Мојата страница</h1>";
+        if (token === "<p>") return "<p>";
+        if (token === "</p>") return "Јас учам HTML.</p>";
+        if (token === "<strong>") return "<strong>";
+        if (token === "</strong>") return "многу важно</strong>";
+        if (token === "<em>") return "<em>";
+        if (token === "</em>") return "интересно</em>";
+        if (token === "<ul>") return "<ul>";
+        if (token === "</ul>") return "</ul>";
+        if (token === "<ol>") return "<ol>";
+        if (token === "</ol>") return "</ol>";
+        if (token === "<li>") return "<li>";
+        if (token === "</li>") return "Ставка</li>";
+        if (token === "<img>") return `<div class="image-box">🖼️</div>`;
+        if (token === "<br>") return "<br>";
+        if (token === "<a>") return "<a href='#'>";
+        if (token === "</a>") return "Кликни ме</a>";
+
+        return "";
+      }
+
+      function startChallenge() {
+        timeLeft =
+          currentDifficulty === "easy"
+            ? 30
+            : currentDifficulty === "medium"
+              ? 20
+              : 15;
+
+        timerEl.textContent = timeLeft + " сек.";
+        startQuiz();
+
+        timer = setInterval(() => {
+          timeLeft--;
+          timerEl.textContent = timeLeft + " сек.";
+
+          if (timeLeft <= 0) {
+            stopTimer();
+            message.textContent = "⏰ Времето истече! Обиди се повторно.";
+            message.style.color = "#be123c";
+            playWrong();
+          }
+        }, 1000);
+      }
+
+      function stopTimer() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+        timerEl.textContent = "--";
+      }
+
+      function addScore(points) {
+        streak++;
+        streakEl.textContent = streak;
+
+        let bonus = 0;
+        if (streak >= 3) bonus = 5;
+        if (streak >= 5) bonus = 10;
+
+        totalScore += points + bonus;
+        scoreEl.textContent = totalScore;
+
+        if (bonus > 0) {
+          message.textContent += ` 🔥 Бонус: +${bonus}`;
+        }
+      }
+
+      function completeRound(modeNameText) {
+        const stars = hintsUsed === 0 ? 3 : hintsUsed <= 2 ? 2 : 1;
+
+        overlayTitle.textContent = "🎉 Браво!";
         overlayStars.textContent = "⭐".repeat(stars) + "☆".repeat(3 - stars);
-        overlayText.textContent = `Го заврши делот „${level.title}“!`;
+        overlayText.textContent = `Го заврши делот: ${modeNameText}.`;
 
         if (stars === 3) {
           badges++;
           badgeCount.textContent = badges;
-          overlayBadge.innerHTML = `<span class="badge">🏅 Експерт за ${level.title}</span>`;
+          overlayBadge.innerHTML = `<span class="badge">🏅 ${modeNameText} мајстор</span>`;
         } else {
           overlayBadge.innerHTML = "";
         }
@@ -767,33 +1101,86 @@
         overlay.classList.add("show");
         playLevelUp();
 
-        nextBtn.textContent =
-          levelIndex + 1 < levels.length ? "Продолжи ➡️" : "Заврши игра 🏆";
+        nextBtn.textContent = "Следно ниво ➡️";
       }
 
-      function nextLevel() {
+      function nextRound() {
         overlay.classList.remove("show");
+        levelIndex++;
+        startCurrentMode();
+      }
 
-        if (levelIndex + 1 < levels.length) {
-          levelIndex++;
-          loadLevel();
-        } else {
-          overlayTitle.textContent = "🏆 Честитки!";
-          overlayStars.textContent = "🌟🌟🌟";
-          overlayText.innerHTML = `Ги заврши сите нивоа!<br><br>Вкупно поени: <b>${totalScore}</b><br>Значки: <b>${badges}</b>`;
-          overlayBadge.innerHTML = `<span class="badge">🦸 HTML херој</span>`;
-          nextBtn.textContent = "Играј повторно 🔄";
-          levelIndex = -1;
+      function giveHint() {
+        if (currentMode === "match") {
+          const openTags = [
+            ...document.querySelectorAll(".tag.opening:not(.correct)"),
+          ];
+          const closeTags = [
+            ...document.querySelectorAll(".tag.closing:not(.correct)"),
+          ];
+
+          if (!openTags.length || !closeTags.length) return;
+
+          const openTag = openTags[0];
+          const closeTag = closeTags.find(
+            (tag) => tag.dataset.pairId === openTag.dataset.pairId,
+          );
+
+          if (!closeTag) return;
+
+          openTag.classList.add("correct");
+          closeTag.classList.add("correct");
+          openTag.draggable = false;
+          closeTag.draggable = false;
+
+          hintsUsed++;
+          addScore(5);
+          completed++;
+          updateMatchProgress();
+
+          message.textContent = "💡 Помош: овој пар тагови е поврзан.";
+          message.style.color = "#b45309";
+          playCorrect();
+
+          const tags =
+            matchLevels[currentDifficulty][
+              levelIndex % matchLevels[currentDifficulty].length
+            ];
+
+          if (completed === tags.length) {
+            setTimeout(() => completeRound("Спојување"), 700);
+          }
+        }
+
+        if (currentMode === "quiz") {
+          message.textContent = `💡 Потсетник: точниот таг е <${currentQuiz.correct}>.`;
+          message.style.color = "#b45309";
+        }
+
+        if (currentMode === "build") {
+          const level = buildLevels[levelIndex % buildLevels.length];
+          message.textContent = `💡 Следниот дел е: ${level.sequence[buildProgress]}`;
+          message.style.color = "#b45309";
         }
       }
+
+      document.querySelectorAll(".mode-btn").forEach((button) => {
+        button.addEventListener("click", () => setMode(button.dataset.mode));
+      });
+
+      document.querySelectorAll(".diff-btn").forEach((button) => {
+        button.addEventListener("click", () =>
+          setDifficulty(button.dataset.diff),
+        );
+      });
 
       document.getElementById("hintBtn").addEventListener("click", giveHint);
       document
         .getElementById("restartBtn")
-        .addEventListener("click", startGame);
-      nextBtn.addEventListener("click", nextLevel);
+        .addEventListener("click", startCurrentMode);
+      nextBtn.addEventListener("click", nextRound);
 
-      startGame();
+      setMode("match");
     </script>
   </body>
 </html>
